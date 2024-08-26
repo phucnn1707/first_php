@@ -3,7 +3,7 @@
     <h1 class="tille">Register a new account</h1>
 
     <div class="mx-auto max-w-screen-sm card">
-        <form action="{{ route('register') }}" method="post">
+        <form action="{{ route('register') }}" method="post" x-data="formSubmit" @submit.prevent="submit">
             @csrf
 
             {{-- username --}}
@@ -51,7 +51,7 @@
             </div>
 
             {{-- submit button --}}
-            <button class="btn">Register</button>
+            <button x-ref="btn" class="btn">Register</button>
         </form>
     </div>
 

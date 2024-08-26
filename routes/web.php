@@ -13,9 +13,18 @@ Route::get('/{user}/posts', [DashboardController::class, 'userPosts'])->name('po
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')->name('dashboard');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    //Email Verification Notice
+    Route::get('/email/verify', [AuthController::class, 'verifyNotice'])->name('verification.notice');
+
+    //Email Verification handler route
+    Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware('signed')->name('verification.verify');
+
+    //Resending the verification Email route
+    Route::post('/email/verification-notification', [AuthController::class, 'verifyHandler'])->middleware('throttle:6,1')->name('verification.send');
 });
 
 Route::middleware('guest')->group(function () {
