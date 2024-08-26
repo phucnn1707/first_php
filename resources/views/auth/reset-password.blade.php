@@ -1,15 +1,12 @@
 <x-layout>
 
-    <h1 class="tille">Login to your account</h1>
-
-    {{-- Session Messages --}}
-    @if (session('status'))
-        <x-flashMsg msg="{{ session('status') }}" />
-    @endif
+    <h1 class="tille">Reset your password</h1>
 
     <div class="mx-auto max-w-screen-sm card">
-        <form action="{{ route('login') }}" method="post">
+        <form action="{{ route('password.update') }}" method="post">
             @csrf
+
+            <input type="hidden" name="token" value="{{ $token }}">
 
             {{-- email --}}
             <div class="mb-4">
@@ -35,22 +32,16 @@
                 @enderror
             </div>
 
-            {{-- remember me checkbox --}}
-            <div class="mb-4 flex justify-between items-center">
-                <div>
-                    <input type="checkbox" name="remember" id="remember">
-                    <label for="remember">Remember me</label>
-                </div>
-
-                <a class="text-blue-500" href="{{ route('password.request') }}">Forgot your password?</a>
+            {{-- confirm password --}}
+            <div class="mb-8">
+                <label for="password_confirmation">Confirm Password</label>
+                <input type="password" name="password_confirmation"
+                    class="input
+                @error('password') ring-red-500 @enderror">
             </div>
 
-            @error('failed')
-                <p class="error">{{ $message }}</p>
-            @enderror
-
             {{-- submit button --}}
-            <button class="btn">Login</button>
+            <button class="btn">Reset password</button>
         </form>
     </div>
 
